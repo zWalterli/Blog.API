@@ -19,7 +19,7 @@ public class PostController(IPostService _postService) : BaseController
     public async Task<IActionResult> CreatePost([FromBody] PostCreateDto post)
     {
         await _postService.CreatePostAsync(post, UserId, CancellationToken.None);
-        return OkResponse();
+        return CreatedResponse();
     }
 
     /// <summary>
@@ -58,6 +58,7 @@ public class PostController(IPostService _postService) : BaseController
     )
     {
         (IEnumerable<PostGetDto> posts, int count) = await _postService.GetAllPostsAsync(filter, UserId, CancellationToken.None);
+        if (count == 0) return NoContent();
         return OkPaginatedResponse(filter.Page, filter.PageSize, count, posts);
     }
 }

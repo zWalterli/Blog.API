@@ -51,6 +51,15 @@ public abstract class BaseController : ControllerBase
         return Ok(response);
     }
 
+    protected IActionResult CreatedResponse()
+    {
+        return Created(string.Empty, new BaseResponse<object>
+        {
+            Success = true,
+            Data = new { }
+        });
+    }
+
     protected IActionResult ErrorResponse(string message, int statusCode = 400)
     {
         var response = new BaseResponse<string>
