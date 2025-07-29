@@ -1,7 +1,4 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
@@ -9,9 +6,9 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/Blob.API/bin/Debug/net9.0/Blog.API.dll",
+      "program": "${workspaceFolder}/Blog.API/bin/Debug/net8.0/Blog.API.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/Blob.API",
+      "cwd": "${workspaceFolder}/Blog.API",
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",
