@@ -22,12 +22,12 @@ public class PostRepository(ContextAPI _contextAPI) : IPostRepository
 
     public async Task<(int, IEnumerable<Post>)> GetAllAsync(int userId, int page, int pageSize, CancellationToken cancellationToken)
     {
-        var query = _contextAPI.Posts
-            .Include(p => p.Author)
-            .Where(p => p.Status != StatusModelEnum.Deleted && p.AuthorId == userId);
+        IQueryable<Post> query = _contextAPI.Posts
+            .Where(p => p.Status != StatusModelEnum.Deleted && p.AuthorId == userId)
+            .AsNoTracking();
 
-        var count = await query.CountAsync();
-        var result = await query
+        int count = await query.CountAsync();
+        List<Post> result = await query
             .OrderByDescending(p => p.CreatedAt)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)

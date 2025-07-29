@@ -27,6 +27,7 @@ public class PostService(IPostRepository _postRepository, IHubContext<PostNotifi
 
     public async Task<(IEnumerable<PostGetDto>, int)> GetAllPostsAsync(PostFilterDto filter, int userId, CancellationToken cancellationToken)
     {
+        filter.ValidateMaxPageSize();
         (int count, IEnumerable<Post>? posts) = await _postRepository.GetAllAsync(userId, filter.Page, filter.PageSize, cancellationToken);
         IEnumerable<PostGetDto>? postsDto = posts.Select(post => post.ToDto());
 
@@ -35,7 +36,7 @@ public class PostService(IPostRepository _postRepository, IHubContext<PostNotifi
 
     public async Task UpdatePostAsync(PostUpdateDto postDto, int postId, int userId, CancellationToken cancellationToken)
     {
-        var postDb = await _postRepository.ObterPorIdAsync(postId, cancellationToken);
+        Post postDb = await _postRepository.ObterPorIdAsync(postId, cancellationToken);
         if (postDb is null || postDb.AuthorId != userId)
         {
             throw new InvalidOperationException("Post não foi encontrado ou você não tem permissão para atualizar.");

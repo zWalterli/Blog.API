@@ -22,8 +22,7 @@ public static class PostMapper
             Content = post.Content,
             CreatedAt = post.CreatedAt,
             UpdatedAt = post.UpdatedAt,
-            AuthorId = post.AuthorId,
-            Author = post.Author.ToDto()
+            AuthorId = post.AuthorId
         };
     }
 }
