@@ -13,6 +13,7 @@ public static class RepositoryExtensions
     public static IServiceCollection AddRepository(this IServiceCollection services, IConfiguration configuration)
     {
         var connStr = configuration.GetConnectionString("DefaultConnection");
+        Console.WriteLine($"Using connection string: {connStr}");
         services.AddDbContext<ContextAPI>(options =>
             options.UseMySql(connStr, ServerVersion.AutoDetect(connStr)));
 
@@ -26,10 +27,15 @@ public static class RepositoryExtensions
 
     public static void RunMigrate(this WebApplication app)
     {
-        using (var scope = app.Services.CreateScope())
+        try
         {
-            var db = scope.ServiceProvider.GetRequiredService<ContextAPI>();
-            db.Database.Migrate();
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<ContextAPI>();
+                db.Database.Migrate();
+            }
         }
+        catch (Exception ex)
+        { }
     }
 }

@@ -24,7 +24,6 @@ app.RunMigrate();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
