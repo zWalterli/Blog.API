@@ -3,7 +3,7 @@ using Blog.Domain.DTOs.Post;
 using Blog.Domain.Interfaces.Repositories;
 using Blog.Domain.Interfaces.Services;
 using Blog.Domain.Mapper;
-using Blog.Domain.Model;
+using Blog.Domain.Entity;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Blog.Application.Services;
@@ -13,7 +13,7 @@ public class PostService(IPostRepository _postRepository, IHubContext<PostNotifi
     public async Task CreatePostAsync(PostCreateDto postDto, int userId, CancellationToken cancellationToken)
     {
         Post entity = postDto.ToEntity();
-        entity.AuthorId = userId;
+        entity.SetAuthor(userId);
         await _postRepository.InsertAsync(entity, cancellationToken);
 
         string message = $"Novo post criado: {entity.Title}";
@@ -35,9 +35,15 @@ public class PostService(IPostRepository _postRepository, IHubContext<PostNotifi
 
     public async Task UpdatePostAsync(PostUpdateDto postDto, int userId, CancellationToken cancellationToken)
     {
-        var entity = postDto.ToEntity();
-        entity.AuthorId = userId;
-        
-        await _postRepository.UpdateAsync(entity, cancellationToken);
+        var postDb = await _postRepository.ObterPorIdAsync(postDto.Id, cancellationToken);
+        if (postDb is null || postDb.AuthorId != userId)
+        {
+            throw new InvalidOperationException("Post não foi encontrado ou você não tem permissão para atualizar.");
+        }
+
+        postDb.UpdateTitle(postDto.Title);
+        postDb.UpdateContent(postDto.Content);
+
+        await _postRepository.UpdateAsync(postDb, cancellationToken);
     }
 }

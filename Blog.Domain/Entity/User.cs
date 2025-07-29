@@ -1,4 +1,4 @@
-using Blog.Domain.Model;
+using Blog.Domain.Entity;
 
 namespace Blog.Application.Domain;
 

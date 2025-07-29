@@ -1,6 +1,6 @@
 using Blog.Application.Domain;
 using Blog.Data.Configuration;
-using Blog.Domain.Model;
+using Blog.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Data.Context;

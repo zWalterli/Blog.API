@@ -1,5 +1,5 @@
 using Blog.Domain.DTOs.Post;
-using Blog.Domain.Model;
+using Blog.Domain.Entity;
 
 namespace Blog.Domain.Mapper;
 
@@ -7,24 +7,20 @@ public static class PostMapper
 {
     public static Post ToEntity(this PostCreateDto dto)
     {
-        return new Post
-        {
-            Title = dto.Title,
-            Content = dto.Content,
-            CreatedAt = DateTime.UtcNow
-        };
+        return new Post(
+            title: dto.Title,
+            content: dto.Content
+        );
     }
 
     public static Post ToEntity(this PostUpdateDto dto)
     {
-        return new Post
-        {
-            Id = dto.Id,
-            Title = dto.Title,
-            Content = dto.Content,
-            AuthorId = dto.AuthorId,
-            UpdatedAt = DateTime.UtcNow
-        };
+        return new Post(
+            id: dto.Id,
+            title: dto.Title,
+            content: dto.Content,
+            authorId: dto.AuthorId
+        );
     }
 
     public static PostGetDto ToDto(this Post post)

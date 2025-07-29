@@ -1,17 +1,11 @@
-using System;
-
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Blog.Application.Services;
 using Blog.Domain.DTOs.Login;
 using Blog.Domain.DTOs.Token;
 using Blog.Domain.DTOs;
 using Blog.Domain.Interfaces.Services;
-using Microsoft.Extensions.Options;
 using Moq;
-using Xunit;
-using Blog.Domain.Interfaces.Repositories;
+
+namespace Blog.Test.Services;
 
 public class TokenServiceTests
 {
@@ -24,7 +18,7 @@ public class TokenServiceTests
         _userServiceMock = new Mock<IUserService>();
         _jwtOptions = new JwtSettings
         {
-            Key = "supersecretkey1234567890",
+            Key = "H#s}#y5)t_h%0Ivd1s]TufhZia,UawCP",
             Issuer = "TestIssuer",
             Audience = "TestAudience",
             Expiration = "60"
