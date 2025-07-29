@@ -27,15 +27,32 @@ public static class RepositoryExtensions
 
     public static void RunMigrate(this WebApplication app)
     {
-        try
+        const int maxRetries = 10;
+        const int delaySeconds = 5;
+        int attempt = 0;
+
+        using var scope = app.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<ContextAPI>();
+
+        while (true)
         {
-            using (var scope = app.Services.CreateScope())
+            try
             {
-                var db = scope.ServiceProvider.GetRequiredService<ContextAPI>();
                 db.Database.Migrate();
+                break;
+            }
+            catch (Exception ex)
+            {
+                attempt++;
+                if (attempt >= maxRetries)
+                {
+                    Console.WriteLine($"[ERROR] Migration failed after {maxRetries} attempts: {ex.Message}");
+                    throw;
+                }
+
+                Console.WriteLine($"[WARN] DB not ready yet. Retry {attempt}/{maxRetries} in {delaySeconds}s...");
+                Thread.Sleep(TimeSpan.FromSeconds(delaySeconds));
             }
         }
-        catch (Exception ex)
-        { }
     }
 }
