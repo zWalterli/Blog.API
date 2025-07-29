@@ -34,7 +34,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Release
       - ConnectionStrings__DefaultConnection=server=mysql;port=3306;database=blogdb;user=bloguser;password=blogpass
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     networks:
       - blognetwork
 

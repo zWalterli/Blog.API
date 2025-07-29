@@ -27,11 +27,10 @@ public class PostController(IPostService _postService) : BaseController
     /// </summary>
     /// <param name="post">Post a ser atualizado</param>
     /// <returns></returns>
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdatePost([FromRoute] int id, [FromBody] PostUpdateDto post)
+    [HttpPut("{postId}")]
+    public async Task<IActionResult> UpdatePost([FromRoute] int postId, [FromBody] PostUpdateDto post)
     {
-        post.Id = id;
-        await _postService.UpdatePostAsync(post, UserId, CancellationToken.None);
+        await _postService.UpdatePostAsync(post, postId, UserId, CancellationToken.None);
         return OkResponse();
     }
 
@@ -58,8 +57,7 @@ public class PostController(IPostService _postService) : BaseController
         [FromQuery] PostFilterDto filter
     )
     {
-        filter.SetUserId(UserId);
-        (IEnumerable<PostGetDto> posts, int count) = await _postService.GetAllPostsAsync(filter, CancellationToken.None);
+        (IEnumerable<PostGetDto> posts, int count) = await _postService.GetAllPostsAsync(filter, UserId, CancellationToken.None);
         return OkPaginatedResponse(filter.Page, filter.PageSize, count, posts);
     }
 }

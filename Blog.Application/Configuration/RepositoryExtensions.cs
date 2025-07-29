@@ -15,7 +15,7 @@ public static class RepositoryExtensions
         var connStr = configuration.GetConnectionString("DefaultConnection");
         Console.WriteLine($"Using connection string: {connStr}");
         services.AddDbContext<ContextAPI>(options =>
-            options.UseMySql(connStr, ServerVersion.AutoDetect(connStr)));
+            options.UseMySql(connStr, ServerVersion.AutoDetect(connStr), x => x.MigrationsAssembly("Blog.Data")));
 
         services.AddScoped<IPostRepository, PostRepository>();
         services.AddScoped<IUserRepository, UserRepository>();

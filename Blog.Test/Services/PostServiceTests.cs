@@ -73,21 +73,22 @@ public class PostServiceTests
     public async Task GetAllPostsAsync_ShouldReturnDtosAndCount()
     {
         // Arrange
-        var filter = new PostFilterDto { UserId = 1, Page = 1, PageSize = 2 };
+        var userId = 1;
+        var filter = new PostFilterDto { Page = 1, PageSize = 2 };
         var posts = new List<Post> {
             new Post(id: 1, content: "Test Content A", title: "Test Title A"),
             new Post(id: 2, content: "Test Content B", title: "Test Title B")
         };
         int count = posts.Count;
-        _postRepositoryMock.Setup(r => r.GetAllAsync(filter.UserId, filter.Page, filter.PageSize, It.IsAny<CancellationToken>()))
+        _postRepositoryMock.Setup(r => r.GetAllAsync(userId, filter.Page, filter.PageSize, It.IsAny<CancellationToken>()))
             .ReturnsAsync((count, posts));
 
         // Act
-        var (resultDtos, resultCount) = await _service.GetAllPostsAsync(filter, CancellationToken.None);
+        var (resultDtos, resultCount) = await _service.GetAllPostsAsync(filter, userId, CancellationToken.None);
 
         // Assert
         Assert.Equal(count, resultCount);
-        _postRepositoryMock.Verify(r => r.GetAllAsync(filter.UserId, filter.Page, filter.PageSize, It.IsAny<CancellationToken>()), Times.Once);
+        _postRepositoryMock.Verify(r => r.GetAllAsync(userId, filter.Page, filter.PageSize, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -95,14 +96,15 @@ public class PostServiceTests
     {
         // Arrange
         var userId = 1;
-        var postDto = new PostUpdateDto { Id = 1, AuthorId = userId, Title = "Updated" };
-        _postRepositoryMock.Setup(r => r.ObterPorIdAsync(postDto.Id, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new Post(id: postDto.Id, content: "Old Content", title: "Old Title", authorId: userId));
+        var postId = 12;
+        var postDto = new PostUpdateDto { Title = "Updated" };
+        _postRepositoryMock.Setup(r => r.ObterPorIdAsync(postId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new Post(id: postId, content: "Old Content", title: "Old Title", authorId: userId));
 
         _postRepositoryMock.Setup(r => r.UpdateAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         // Act
-        await _service.UpdatePostAsync(postDto, userId, CancellationToken.None);
+        await _service.UpdatePostAsync(postDto, postId, userId, CancellationToken.None);
 
         // Assert
         _postRepositoryMock.Verify(r => r.UpdateAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>()), Times.Once);

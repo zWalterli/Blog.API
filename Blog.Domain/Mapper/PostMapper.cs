@@ -13,16 +13,6 @@ public static class PostMapper
         );
     }
 
-    public static Post ToEntity(this PostUpdateDto dto)
-    {
-        return new Post(
-            id: dto.Id,
-            title: dto.Title,
-            content: dto.Content,
-            authorId: dto.AuthorId
-        );
-    }
-
     public static PostGetDto ToDto(this Post post)
     {
         return new PostGetDto

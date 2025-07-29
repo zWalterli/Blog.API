@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Notificações de Posts</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+    }
+    .connected {
+      color: green;
+      font-weight: bold;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>📰 Notificações de Novos Posts</h1>
+  <p id="status">🔄 Conectando...</p>
+  <ul id="notifications"></ul>
+
+  <script>
+    const status = document.getElementById("status");
+    const list = document.getElementById("notifications");
+
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl("http://localhost:9000/hub/PostNotification")
+      .configureLogging(signalR.LogLevel.Information)
+      .build();
+
+    connection.on("NewPost", (postId, message) => {
+      const li = document.createElement("li");
+      li.textContent = `[${postId}] ${message}`;
+      list.prepend(li); 
+    });
+
+    connection.start()
+      .then(() => {
+        status.textContent = "✅ Conectado!";
+        status.className = "connected";
+      })
+      .catch(err => {
+        console.error(err);
+        status.textContent = "❌ Falha na conexão.";
+        status.className = "error";
+      });
+  </script>
+</body>
+</html>
