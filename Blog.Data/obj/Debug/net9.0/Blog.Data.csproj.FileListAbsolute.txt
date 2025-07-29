@@ -1,0 +1,15 @@
+/Users/walterli/Documents/BlogAPI/Blog.Data/bin/Debug/net9.0/Blog.Data.deps.json
+/Users/walterli/Documents/BlogAPI/Blog.Data/bin/Debug/net9.0/Blog.Data.dll
+/Users/walterli/Documents/BlogAPI/Blog.Data/bin/Debug/net9.0/Blog.Data.pdb
+/Users/walterli/Documents/BlogAPI/Blog.Data/bin/Debug/net9.0/Blog.Domain.dll
+/Users/walterli/Documents/BlogAPI/Blog.Data/bin/Debug/net9.0/Blog.Domain.pdb
+/Users/walterli/Documents/BlogAPI/Blog.Data/obj/Debug/net9.0/Blog.Data.csproj.AssemblyReference.cache
+/Users/walterli/Documents/BlogAPI/Blog.Data/obj/Debug/net9.0/Blog.Data.GeneratedMSBuildEditorConfig.editorconfig
+/Users/walterli/Documents/BlogAPI/Blog.Data/obj/Debug/net9.0/Blog.Data.AssemblyInfoInputs.cache
+/Users/walterli/Documents/BlogAPI/Blog.Data/obj/Debug/net9.0/Blog.Data.AssemblyInfo.cs
+/Users/walterli/Documents/BlogAPI/Blog.Data/obj/Debug/net9.0/Blog.Data.csproj.CoreCompileInputs.cache
+/Users/walterli/Documents/BlogAPI/Blog.Data/obj/Debug/net9.0/Blog.Data.csproj.Up2Date
+/Users/walterli/Documents/BlogAPI/Blog.Data/obj/Debug/net9.0/Blog.Data.dll
+/Users/walterli/Documents/BlogAPI/Blog.Data/obj/Debug/net9.0/refint/Blog.Data.dll
+/Users/walterli/Documents/BlogAPI/Blog.Data/obj/Debug/net9.0/Blog.Data.pdb
+/Users/walterli/Documents/BlogAPI/Blog.Data/obj/Debug/net9.0/ref/Blog.Data.dll
