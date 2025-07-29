@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: blog_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: blogdb
+      MYSQL_USER: bloguser
+      MYSQL_PASSWORD: blogpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - blognetwork
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: blog_api
+    restart: always
+    ports:
+      - "9000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Release
+      - ConnectionStrings__DefaultConnection=server=mysql;port=3306;database=blogdb;user=bloguser;password=blogpass
+    depends_on:
+      - mysql
+    networks:
+      - blognetwork
+
+volumes:
+  mysql_data:
+
+networks:
+  blognetwork:
+    driver: bridge

@@ -1,6 +1,7 @@
 using Blog.Data.Context;
 using Blog.Data.Repositories;
 using Blog.Domain.Interfaces.Repositories;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,9 +17,19 @@ public static class RepositoryExtensions
             options.UseMySql(connStr, ServerVersion.AutoDetect(connStr)));
 
         services.AddScoped<IPostRepository, PostRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddSignalR();
 
         return services;
+    }
+
+    public static void RunMigrate(this WebApplication app)
+    {
+        using (var scope = app.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<ContextAPI>();
+            db.Database.Migrate();
+        }
     }
 }

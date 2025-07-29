@@ -11,23 +11,24 @@ using Blog.Domain.Interfaces.Services;
 using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
+using Blog.Domain.Interfaces.Repositories;
 
 public class TokenServiceTests
 {
     private readonly Mock<IUserService> _userServiceMock;
-    private readonly IOptions<JwtSettings> _jwtOptions;
+    private readonly JwtSettings _jwtOptions;
     private readonly TokenService _service;
 
     public TokenServiceTests()
     {
         _userServiceMock = new Mock<IUserService>();
-        _jwtOptions = Options.Create(new JwtSettings
+        _jwtOptions = new JwtSettings
         {
             Key = "supersecretkey1234567890",
             Issuer = "TestIssuer",
             Audience = "TestAudience",
             Expiration = "60"
-        });
+        };
         _service = new TokenService(_userServiceMock.Object, _jwtOptions);
     }
 
@@ -46,7 +47,7 @@ public class TokenServiceTests
         // Assert
         Assert.NotNull(result);
         Assert.False(string.IsNullOrEmpty(result.AccessToken));
-        Assert.True(result.Expiration > DateTime.Now);
+        Assert.True(result.Expiration > DateTime.UtcNow);
     }
 
     [Fact]

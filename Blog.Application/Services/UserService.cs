@@ -25,7 +25,7 @@ public class UserService(IUserRepository _userRepository) : IUserService
     public async Task<UserGetDto> GetByEmailPasswordAsync(string email, string password, CancellationToken cancellationToken)
     {
         User userDataBase = await _userRepository.GetByEmailAndPasswordAsync(email, password, cancellationToken);
-        if (userDataBase != null)
+        if (userDataBase == null)
         {
             throw new ArgumentException("Não existe usuário cadastrado com essa combinação!");
         }

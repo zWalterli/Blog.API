@@ -6,14 +6,12 @@ using Blog.Domain.DTOs.Login;
 using Blog.Domain.DTOs.Token;
 using Blog.Domain.Interfaces.Services;
 using Blog.Domain.Mapper;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Blog.Application.Services;
 
-public class TokenService(IUserService _userService, IOptions<JwtSettings> _jwtOptions) : ITokenService
+public class TokenService(IUserService _userService, JwtSettings _jwtSettings) : ITokenService
 {
-    private readonly JwtSettings _jwtSettings = _jwtOptions.Value;
     public async Task<TokenDto> LoginAsync(LoginDto login, CancellationToken cancellationToken)
     {
         string passwordHash = UserMapper.HashPassword(login.Password);
@@ -24,7 +22,7 @@ public class TokenService(IUserService _userService, IOptions<JwtSettings> _jwtO
         }
 
         string accessToken = GenerateAccessToken(user);
-        DateTime expiration = DateTime.Now.AddMinutes(int.Parse(_jwtSettings.Expiration));
+        DateTime expiration = DateTime.UtcNow.AddMinutes(int.Parse(_jwtSettings.Expiration));
         return new TokenDto(accessToken, expiration);
     }
 
@@ -44,7 +42,7 @@ public class TokenService(IUserService _userService, IOptions<JwtSettings> _jwtO
             issuer: _jwtSettings.Issuer,
             audience: _jwtSettings.Audience,
             claims: claims,
-            expires: DateTime.Now.AddMinutes(int.Parse(_jwtSettings.Expiration)),
+            expires: DateTime.UtcNow.AddMinutes(int.Parse(_jwtSettings.Expiration)),
             signingCredentials: credentials
         );
 

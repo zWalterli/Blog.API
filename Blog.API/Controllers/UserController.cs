@@ -3,7 +3,7 @@ using Blog.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Blob.API.Controllers;
+namespace Blog.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

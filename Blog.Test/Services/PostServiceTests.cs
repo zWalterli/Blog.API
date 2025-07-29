@@ -45,7 +45,7 @@ public class PostServiceTests
             .Returns(Task.CompletedTask);
 
         // Act
-        await _service.CreatePostAsync(postDto, CancellationToken.None);
+        await _service.CreatePostAsync(postDto, It.IsAny<int>(), CancellationToken.None);
 
         // Assert
         _postRepositoryMock.Verify(r => r.InsertAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -60,13 +60,13 @@ public class PostServiceTests
     {
         // Arrange
         int postId = 1;
-        _postRepositoryMock.Setup(r => r.DeleteAsync(postId, It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+        _postRepositoryMock.Setup(r => r.DeleteAsync(postId, It.IsAny<int>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         // Act
-        await _service.DeletePostAsync(postId, CancellationToken.None);
+        await _service.DeletePostAsync(postId, It.IsAny<int>(), CancellationToken.None);
 
         // Assert
-        _postRepositoryMock.Verify(r => r.DeleteAsync(postId, It.IsAny<CancellationToken>()), Times.Once);
+        _postRepositoryMock.Verify(r => r.DeleteAsync(postId, It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -99,7 +99,7 @@ public class PostServiceTests
         _postRepositoryMock.Setup(r => r.UpdateAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
 
         // Act
-        await _service.UpdatePostAsync(postDto, CancellationToken.None);
+        await _service.UpdatePostAsync(postDto, It.IsAny<int>(), CancellationToken.None);
 
         // Assert
         _postRepositoryMock.Verify(r => r.UpdateAsync(It.IsAny<Post>(), It.IsAny<CancellationToken>()), Times.Once);

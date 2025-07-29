@@ -11,7 +11,6 @@ public static class PostMapper
         {
             Title = dto.Title,
             Content = dto.Content,
-            AuthorId = dto.AuthorId,
             CreatedAt = DateTime.UtcNow
         };
     }

@@ -3,7 +3,7 @@ using Blog.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Blob.API.Controllers;
+namespace Blog.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -18,7 +18,7 @@ public class PostController(IPostService _postService) : BaseController
     [HttpPost]
     public async Task<IActionResult> CreatePost([FromBody] PostCreateDto post)
     {
-        await _postService.CreatePostAsync(post, CancellationToken.None);
+        await _postService.CreatePostAsync(post, UserId, CancellationToken.None);
         return OkResponse();
     }
 
@@ -31,7 +31,7 @@ public class PostController(IPostService _postService) : BaseController
     public async Task<IActionResult> UpdatePost([FromRoute] int id, [FromBody] PostUpdateDto post)
     {
         post.Id = id;
-        await _postService.UpdatePostAsync(post, CancellationToken.None);
+        await _postService.UpdatePostAsync(post, UserId, CancellationToken.None);
         return OkResponse();
     }
 
@@ -43,7 +43,7 @@ public class PostController(IPostService _postService) : BaseController
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeletePost(int id)
     {
-        await _postService.DeletePostAsync(id, CancellationToken.None);
+        await _postService.DeletePostAsync(id, UserId, CancellationToken.None);
         return OkResponse();
     }
 

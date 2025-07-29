@@ -5,7 +5,7 @@ namespace Blog.Domain.Interfaces.Services;
 public interface IPostService
 {
     Task<(IEnumerable<PostGetDto>, int)> GetAllPostsAsync(PostFilterDto filter, CancellationToken cancellationToken);
-    Task CreatePostAsync(PostCreateDto postDto, CancellationToken cancellationToken);
-    Task UpdatePostAsync(PostUpdateDto postDto, CancellationToken cancellationToken);
-    Task DeletePostAsync(int id, CancellationToken cancellationToken);
+    Task CreatePostAsync(PostCreateDto postDto, int userId, CancellationToken cancellationToken);
+    Task UpdatePostAsync(PostUpdateDto postDto, int userId, CancellationToken cancellationToken);
+    Task DeletePostAsync(int id, int userId, CancellationToken cancellationToken);
 }

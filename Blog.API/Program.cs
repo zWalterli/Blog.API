@@ -20,6 +20,7 @@ builder.Services
 
 var app = builder.Build();
 
+app.RunMigrate();
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -30,4 +31,5 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapHub<PostNotificationHub>("/hub/PostNotification");
 
+Console.WriteLine("Blog API is running...");
 app.Run();

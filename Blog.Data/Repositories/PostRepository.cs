@@ -8,9 +8,9 @@ namespace Blog.Data.Repositories;
 
 public class PostRepository(ContextAPI _contextAPI) : IPostRepository
 {
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken)
+    public async Task DeleteAsync(int id, int userId, CancellationToken cancellationToken)
     {
-        var post = await _contextAPI.Posts.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        var post = await _contextAPI.Posts.FirstOrDefaultAsync(p => p.Id == id && p.AuthorId == userId, cancellationToken);
         post!.Status = StatusModelEnum.Deleted;
         await _contextAPI.SaveChangesAsync(cancellationToken);
     }

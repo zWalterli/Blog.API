@@ -2,7 +2,7 @@ using System.Security.Claims;
 using Blog.Domain.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Blob.API.Controllers;
+namespace Blog.API.Controllers;
 
 public abstract class BaseController : ControllerBase
 {

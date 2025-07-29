@@ -10,18 +10,19 @@ namespace Blog.Application.Services;
 
 public class PostService(IPostRepository _postRepository, IHubContext<PostNotificationHub> _hubContext) : IPostService
 {
-    public async Task CreatePostAsync(PostCreateDto postDto, CancellationToken cancellationToken)
+    public async Task CreatePostAsync(PostCreateDto postDto, int userId, CancellationToken cancellationToken)
     {
         Post entity = postDto.ToEntity();
+        entity.AuthorId = userId;
         await _postRepository.InsertAsync(entity, cancellationToken);
 
         string message = $"Novo post criado: {entity.Title}";
         await _hubContext.Clients.All.SendAsync("NewPost", entity.Id, message, cancellationToken);
     }
 
-    public async Task DeletePostAsync(int id, CancellationToken cancellationToken)
+    public async Task DeletePostAsync(int id, int userId, CancellationToken cancellationToken)
     {
-        await _postRepository.DeleteAsync(id, cancellationToken);
+        await _postRepository.DeleteAsync(id, userId, cancellationToken);
     }
 
     public async Task<(IEnumerable<PostGetDto>, int)> GetAllPostsAsync(PostFilterDto filter, CancellationToken cancellationToken)
@@ -32,8 +33,11 @@ public class PostService(IPostRepository _postRepository, IHubContext<PostNotifi
         return (postsDto, count);
     }
 
-    public async Task UpdatePostAsync(PostUpdateDto postDto, CancellationToken cancellationToken)
+    public async Task UpdatePostAsync(PostUpdateDto postDto, int userId, CancellationToken cancellationToken)
     {
-        await _postRepository.UpdateAsync(postDto.ToEntity(), cancellationToken);
+        var entity = postDto.ToEntity();
+        entity.AuthorId = userId;
+        
+        await _postRepository.UpdateAsync(entity, cancellationToken);
     }
 }

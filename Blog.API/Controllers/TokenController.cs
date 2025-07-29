@@ -3,7 +3,7 @@ using Blog.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Blob.API.Controllers;
+namespace Blog.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -15,7 +15,7 @@ public class TokenController(ITokenService _tokenService) : BaseController
     /// </summary>
     /// <param name="user">Usuário a ser criado</param>
     /// <returns></returns>
-    [HttpPost]
+    [HttpPost("Login")]
     public async Task<IActionResult> LoginAsync([FromBody] LoginDto login, CancellationToken cancellationToken)
     {
         var token = await _tokenService.LoginAsync(login, cancellationToken);
