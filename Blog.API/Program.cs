@@ -31,6 +31,7 @@ app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseRateLimiter();
 app.MapControllers();
 app.MapHub<PostNotificationHub>("/hub/PostNotification");
 

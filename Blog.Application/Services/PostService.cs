@@ -25,10 +25,10 @@ public class PostService(IPostRepository _postRepository, IHubContext<PostNotifi
         await _postRepository.DeleteAsync(id, userId, cancellationToken);
     }
 
-    public async Task<(IEnumerable<PostGetDto>, int)> GetAllPostsAsync(PostFilterDto filter, int userId, CancellationToken cancellationToken)
+    public async Task<(IEnumerable<PostGetDto>, int)> GetAllPostsAsync(PostFilterDto filter, int? userId, CancellationToken cancellationToken)
     {
         filter.ValidateMaxPageSize();
-        (int count, IEnumerable<Post>? posts) = await _postRepository.GetAllAsync(userId, filter.Page, filter.PageSize, cancellationToken);
+        (int count, IEnumerable<Post>? posts) = await _postRepository.GetAllAsync(filter.Page, filter.PageSize, userId, cancellationToken);
         IEnumerable<PostGetDto>? postsDto = posts.Select(post => post.ToDto());
 
         return (postsDto, count);

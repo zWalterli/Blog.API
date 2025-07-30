@@ -49,11 +49,26 @@ public class PostController(IPostService _postService) : BaseController
     /// <summary>
     /// Obtem todos os posts com paginação
     /// </summary>
-    /// <param name="page">Número da página</param>
-    /// <param name="pageSize">Tamanho da página</param>
+    /// <param name="filter">Filtros de paginação</param>
+    /// <returns></returns>
+    [HttpGet("paginated")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetPaginatedAsync(
+        [FromQuery] PostFilterDto filter
+    )
+    {
+        (IEnumerable<PostGetDto> posts, int count) = await _postService.GetAllPostsAsync(filter, userId: null, CancellationToken.None);
+        if (count == 0) return NoContent();
+        return OkPaginatedResponse(filter.Page, filter.PageSize, count, posts);
+    }
+
+    /// <summary>
+    /// Obtem todos os posts com paginação do usuario
+    /// </summary>
+    /// <param name="filter">Filtros de paginação</param>
     /// <returns></returns>
     [HttpGet]
-    public async Task<IActionResult> GetPaginatedAsync(
+    public async Task<IActionResult> GetPaginatedByUserAsync(
         [FromQuery] PostFilterDto filter
     )
     {
