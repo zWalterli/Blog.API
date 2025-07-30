@@ -60,6 +60,7 @@ public static class ApiExtensions
         services.AddControllers(options =>
         {
             options.Filters.Add<ExceptionFilter>();
+            options.Filters.Add<ModelStateToBaseResponseFilter>();
         });
 
         services.AddControllers();

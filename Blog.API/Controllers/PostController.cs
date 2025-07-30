@@ -16,7 +16,7 @@ public class PostController(IPostService _postService) : BaseController
     /// <param name="post">Post a ser criado</param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<IActionResult> CreatePost([FromBody] PostCreateDto post)
+    public async Task<IActionResult> CreateAsync([FromBody] PostCreateDto post)
     {
         await _postService.CreatePostAsync(post, UserId, CancellationToken.None);
         return CreatedResponse();
@@ -28,7 +28,7 @@ public class PostController(IPostService _postService) : BaseController
     /// <param name="post">Post a ser atualizado</param>
     /// <returns></returns>
     [HttpPut("{postId}")]
-    public async Task<IActionResult> UpdatePost([FromRoute] int postId, [FromBody] PostUpdateDto post)
+    public async Task<IActionResult> UpdateAsync([FromRoute] int postId, [FromBody] PostUpdateDto post)
     {
         await _postService.UpdatePostAsync(post, postId, UserId, CancellationToken.None);
         return OkResponse();
@@ -40,7 +40,7 @@ public class PostController(IPostService _postService) : BaseController
     /// <param name="id">Identificador do post</param>
     /// <returns></returns>
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeletePost(int id)
+    public async Task<IActionResult> DeleteAsync(int id)
     {
         await _postService.DeletePostAsync(id, UserId, CancellationToken.None);
         return OkResponse();
@@ -53,7 +53,7 @@ public class PostController(IPostService _postService) : BaseController
     /// <param name="pageSize">Tamanho da página</param>
     /// <returns></returns>
     [HttpGet]
-    public async Task<IActionResult> GetPosts(
+    public async Task<IActionResult> GetPaginatedAsync(
         [FromQuery] PostFilterDto filter
     )
     {

@@ -17,7 +17,7 @@ public class UserController(IUserService _userService) : BaseController
     /// <returns></returns>
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> CreatePost([FromBody] UserCreateDto user, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateAsync([FromBody] UserCreateDto user, CancellationToken cancellationToken)
     {
         await _userService.CreateUserAsync(user, cancellationToken);
         return OkResponse();
