@@ -67,7 +67,7 @@ public class PostController(IPostService _postService) : BaseController
     /// </summary>
     /// <param name="filter">Filtros de paginação</param>
     /// <returns></returns>
-    [HttpGet]
+    [HttpGet("me")]
     public async Task<IActionResult> GetPaginatedByUserAsync(
         [FromQuery] PostFilterDto filter
     )
