@@ -16,8 +16,8 @@ public class UserCreateDtoValidator : AbstractValidator<UserCreateDto>
             .NotEmpty().WithMessage("Senha é obrigatório.")
             .MinimumLength(6).WithMessage("Senha deve ter pelo menos 6 caracteres.")
             .MaximumLength(50).WithMessage("Senha não pode exceder 50 caracteres.")
-            .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$")
-            .WithMessage("Senha deve conter pelo menos uma letra maiúscula, uma letra minúscula e um número.");
+            .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])\S{8,}$")
+            .WithMessage("Senha deve ter ao menos 8 caracteres, incluindo maiúscula, minúscula, número e caractere especial, sem espaços.");
 
         RuleFor(x => x.FirstName)
             .NotEmpty().WithMessage("Primeiro nome é obrigatório.")
