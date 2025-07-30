@@ -7,6 +7,5 @@ public struct PostGetDto
     public string Content { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-    public int AuthorId { get; set; }
     public UserGetDto? Author { get; set; }
 }
